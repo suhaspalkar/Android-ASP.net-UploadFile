@@ -1,0 +1,6 @@
+C:\Workplace\DotNet\Web\AJAXUpload\AJAXUpload\bin\AJAXUpload.dll.config
+C:\Workplace\DotNet\Web\AJAXUpload\AJAXUpload\bin\AJAXUpload.dll
+C:\Workplace\DotNet\Web\AJAXUpload\AJAXUpload\bin\AJAXUpload.pdb
+C:\Workplace\DotNet\Web\AJAXUpload\AJAXUpload\obj\Debug\AJAXUpload.csprojResolveAssemblyReference.cache
+C:\Workplace\DotNet\Web\AJAXUpload\AJAXUpload\obj\Debug\AJAXUpload.dll
+C:\Workplace\DotNet\Web\AJAXUpload\AJAXUpload\obj\Debug\AJAXUpload.pdb
