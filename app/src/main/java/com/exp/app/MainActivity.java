@@ -113,6 +113,7 @@ public class MainActivity extends ActionBarActivity {
             outputStream.flush();
             outputStream.close();
 
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
