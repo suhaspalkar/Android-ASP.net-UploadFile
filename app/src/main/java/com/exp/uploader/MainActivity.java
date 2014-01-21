@@ -1,4 +1,4 @@
-package com.exp.app;
+package com.exp.uploader;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -7,13 +7,16 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import java.io.DataInputStream;
+import com.exp.app.R;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,17 +41,16 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
 
-        // most important thread policy to get output stream @ line no. 85 i.e.  outputStream = new DataOutputStream(connection.getOutputStream());
+        // most important thread policy to get output stream @ line no. 83 i.e.  outputStream = new DataOutputStream(connection.getOutputStream());
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-
     }
 
 
-
     @TargetApi(Build.VERSION_CODES.FROYO)
-    public static void sendFile() {       // send large file in multiparts
+    public static String sendFile() {       // send large file in multiparts
+        String response = "";
+
         HttpURLConnection connection = null;
         DataOutputStream outputStream = null;
 
@@ -109,10 +111,16 @@ public class MainActivity extends ActionBarActivity {
             int serverResponseCode = connection.getResponseCode();
             String serverResponseMessage = connection.getResponseMessage();
 
+            Log.d("Response Code", "" + serverResponseCode);
+            Log.d("Response Message", serverResponseMessage);
+
+
             fileInputStream.close();
             outputStream.flush();
             outputStream.close();
 
+
+            response = serverResponseCode + " " + serverResponseMessage;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -123,12 +131,13 @@ public class MainActivity extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return response;
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -160,18 +169,20 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+            final TextView responseTextView = ((TextView) rootView.findViewById(R.id.responseTextView));
 
             rootView.findViewById(R.id.uploadButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //Inform the user the button has been clicked
-                    sendFile();
+                    String response = sendFile();
+
+                    responseTextView.setText(response);
                 }
             });
             return rootView;
         }
     }
-
 
 
 }
