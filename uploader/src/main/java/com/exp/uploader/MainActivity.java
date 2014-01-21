@@ -1,12 +1,12 @@
 package com.exp.uploader;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +25,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     @Override
@@ -33,15 +33,24 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
 
         // most important thread policy to get output stream @ line no. 83 i.e.  outputStream = new DataOutputStream(connection.getOutputStream());
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+
+
+        final TextView responseTextView = ((TextView) findViewById(R.id.responseTextView));
+
+        findViewById(R.id.uploadButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Inform the user the button has been clicked
+                String response = sendFile();
+
+                responseTextView.setText(response);
+            }
+        });
     }
 
 
@@ -152,35 +161,5 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-            final TextView responseTextView = ((TextView) rootView.findViewById(R.id.responseTextView));
-
-            rootView.findViewById(R.id.uploadButton).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Inform the user the button has been clicked
-                    String response = sendFile();
-
-                    responseTextView.setText(response);
-                }
-            });
-            return rootView;
-        }
-    }
-
 
 }
