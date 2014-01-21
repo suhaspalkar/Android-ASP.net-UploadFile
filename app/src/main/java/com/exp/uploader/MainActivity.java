@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.exp.app.R;
-
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
